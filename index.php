@@ -4,21 +4,26 @@ require 'PhpSpreadsheet\vendor\autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-// Vorhandene Excel-Datei laden
-$inputFileName = 'ukk.xlsx';
-$spreadsheet = IOFactory::load($inputFileName);
+try {
+  // Excel-Datei laden
+  $inputFileName = 'ukk.xlsx';
+  $spreadsheet = IOFactory::load($inputFileName);
+  $sheet = $spreadsheet->getActiveSheet();
 
-// Arbeitsblatt auswählen (Standard: das erste Arbeitsblatt)
-$sheet = $spreadsheet->getActiveSheet();
-$sheet = $spreadsheet->getSheetByName('Langzeitkonto');
-// Bestimmte Zellen befüllen
-$sheet->setCellValue('A3', 'Boddenberg');
+  // Beispiel für eine Datenänderung: Setze einen Wert in Zelle A1
+  $sheet->setCellValue('A1', 'Testdaten');
 
-// Datei unter neuem Namen speichern
-$modifexcelname = rand(999,99999).'-eUKK.xlsx';
-$outputFileName = $modifexcelname;
-$writer = new Xlsx($spreadsheet);
-$writer->save($outputFileName);
+  // Weitere Änderungen kannst du hier hinzufügen
+
+  // Speichern der Datei unter einem neuen Namen (z.B. nach den Änderungen)
+  $outputFileName = 'ukk_geändert.xlsx';
+  $writer = new Xlsx($spreadsheet);
+  $writer->save($outputFileName);
+
+  echo "Die Datei wurde erfolgreich gespeichert: $outputFileName";
+} catch (Exception $e) {
+  echo 'Fehler beim Bearbeiten der Datei: ',  $e->getMessage();
+}
 ?>
 <!doctype html>
 <html lang="de">
